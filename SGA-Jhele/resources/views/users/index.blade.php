@@ -81,6 +81,26 @@
                                             <a href="{{ route('users.confirm', $user->iduser) }}" class="btn btn-danger text-white">
                                                 <i class='material-icons' data-toggle='tooltip' title='Desactivar'>delete_forever</i>
                                             </a>
+                                            @if($user->idrole == 3 && !$user->student)
+                                                <a href="{{ route('students.complete', $user->iduser) }}" class="btn btn-dark text-white">
+                                                    <i class='material-icons' data-toggle='tooltip' title='Completar Alumno'>person_add</i>
+                                                </a>
+                                            @endif
+
+                                            {{-- Si es TEACHER (Rol 2) y NO tiene datos en la tabla teachers --}}
+                                            @if($user->idrole == 2 && !$user->teacher)
+                                                <a href="{{ route('teachers.complete', $user->iduser) }}" class="btn btn-primary text-white">
+                                                    <i class='material-icons' data-toggle='tooltip' title='Completar Docente'>school</i>
+                                                </a>
+                                            @endif
+
+                                            {{-- Si es FATHER (Rol 4) y NO tiene datos en la tabla fathers --}}
+                                            @if($user->idrole == 4 && !$user->father)
+                                                <a href="{{ route('fathers.complete', $user->iduser) }}" class="btn btn-success text-white">
+                                                    <i class='material-icons' data-toggle='tooltip' title='Completar Padre'>family_restroom</i>
+                                                </a>
+                                            @endif
+
 
                                         </td>
                                     </tr>

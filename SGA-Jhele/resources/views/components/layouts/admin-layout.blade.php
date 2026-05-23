@@ -55,20 +55,20 @@
                 </a>
             </li>
 
-            <li class="#">
-                <a href="#">
+            <li class="{{ request()->routeIs('fathers.*') ? 'active' : '' }}">
+                <a href="{{ route('fathers.index') }}">
                     <i class="material-icons">group</i> Padres
                 </a>
             </li>
 
-            <li class="#">
-                <a href="#">
+            <li class="{{ request()->routeIs('teachers.*') ? 'active' : '' }}">
+                <a href="{{ route('teachers.index') }}">
                     <i class="material-icons">badge</i> Docentes
                 </a>
             </li>
 
-            <li class="#">
-                <a href="#">
+            <li class="{{ request()->routeIs('students.*') ? 'active' : '' }}">
+                <a href="{{ route('students.index') }}">
                     <i class="material-icons">face</i> Alumnos
                 </a>
             </li>
@@ -265,6 +265,94 @@
             icon: 'success',
             title: '¡Perfil Familiar Listo!',
             text: 'Los datos del padre/apoderado han sido vinculados.',
+            confirmButtonColor: '#28a745',
+        })
+    </script>
+    @endif
+    @if(session('update_success') == 'OK')
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: '¡Actualizado!',
+            text: 'Los datos del alumno se actualizaron correctamente.',
+            confirmButtonColor: '#28a745',
+        })
+    </script>
+    @endif
+
+    @if(session('delete_success') == 'OK')
+    <script>
+        Swal.fire({
+            icon: 'warning',
+            title: 'Registro Desactivado',
+            text: 'El alumno ha sido inhabilitado correctamente.',
+            confirmButtonColor: '#28a745',
+        })
+    </script>
+    @endif
+    @if(session('photo_success') == 'OK')
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: 'Foto Actualizada',
+            text: 'La imagen de perfil se cambió correctamente.',
+            confirmButtonColor: '#28a745',
+        })
+    </script>
+    @endif
+
+    @if(session('deletee_success') == 'OK')
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: 'Desactivado',
+            text: 'El docente ha sido desactivado correctamente.',
+            confirmButtonColor: '#28a745',
+        })
+    </script>
+    @endif
+
+
+    @if(session('updatee_success') == 'OK')
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: '¡Actualizado!',
+            text: 'Los datos del apoderado se actualizaron correctamente.',
+            confirmButtonColor: '#28a745',
+        })
+    </script>
+    @endif
+
+    @if(session('delete_successApo') == 'OK')
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: 'Desactivado',
+            text: 'El apoderado ha sido desactivado correctamente.',
+            confirmButtonColor: '#28a745',
+        })
+    </script>
+    @endif
+
+
+    @if(session('dpassword_success') == 'OK')
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: '¡Contraseña Actualizada!',
+            text: 'La clave de acceso ha sido cambiada correctamente.',
+            confirmButtonColor: '#28a745',
+        })
+    </script>
+    @endif
+
+    @if(session('add_hijo_success') == 'OK')
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: '¡Alumno Agregado!',
+            text: 'El alumno se ha vinculado correctamente al Apoderado.',
             confirmButtonColor: '#28a745',
         })
     </script>
