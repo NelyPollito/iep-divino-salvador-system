@@ -703,19 +703,21 @@ footer .copyright{
 			 z-index:4;
 		 }
 		 
-		 .dropdown-menu{
-			 border:0;
-			 box-shadow:0 2px 5px 0 rgb(0 0 0 / 26%);
-			 transform:translate3d(0, -20px , 0);
-			 visibility:hidden;
-			 transition:all  150ms linear;
-			 display:block;
-			 min-width:15rem;
-			 right:0;
-			 left:auto;
-			 opacity:0;
-		 }
-		 
+		.dropdown-menu{
+			border:0;
+			box-shadow:0 2px 5px 0 rgb(0 0 0 / 26%);
+			min-width:15rem;
+			right:0;
+			left:auto;
+			display:none;
+			opacity:1;
+			visibility:visible;
+			transform:none;
+		}
+
+		.dropdown-menu.show{
+			display:block;
+		}
 	 }
 	 
 	 

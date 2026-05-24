@@ -37,8 +37,8 @@
         </div>
 
         <ul class="list-unstyled components">
-            <li class="#">
-                <a href="#">
+            <li class="{{ request()->routeIs('dashboard.*') ? 'active' : '' }}">
+                <a href="{{ route('dashboard.index') }}">
                     <i class="material-icons">dashboard</i> Panel Control
                 </a>
             </li>
@@ -91,35 +91,38 @@
                     <span class="material-icons">arrow_back_ios</span>
                 </button>
 
-                <a class="navbar-brand" href="{{ url('/dashboard') }}">Panel Control</a>
+                <a class="navbar-brand" href="#">Panel Control</a>
 
-                <button class="d-inline-block d-lg-none ml-auto more-button" type="button" data-toggle="collapse"
-                    data-target="#navbarcollapse" aria-controls="navbarcollapse" aria-expanded="false" aria-label="Toggle">
+                <button class="d-inline-block d-lg-none ml-auto more-button" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarcollapse" aria-controls="navbarcollapse" aria-expanded="false" aria-label="Toggle">
                     <span class="material-icons">more_vert</span>
                 </button>
 
                 <div class="collapse navbar-collapse d-lg-block d-xl-block d-sm-none d-md-none d-none" id="navbarcollapse">
                     <ul class="nav navbar-nav ml-auto">
                         <li class="nav-item dropdown active">
-                            <a class="nav-link" href="#" data-toggle="dropdown">
+                            <a class="nav-link" href="#" data-bs-toggle="dropdown">
                                 <span class="material-icons">person</span>
                             </a>
-                            <ul class="dropdown-menu">
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
                                 <li>
-                                    <a href="#">Mi cuenta</a>
+                                    <a class="dropdown-item" href="#">Mi cuenta</a>
                                 </li>
                                 <li>
-                                    <a href="#">Contraseña</a>
+                                    <a class="dropdown-item" href="#">Contraseña</a>
                                 </li>
                                 <li>
-                                    <form method="POST" action="#">
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li>
+                                    <form action="{{ route('logout') }}" method="POST">
                                         @csrf
+                                        <button type="submit" class="dropdown-item">
+                                            Salir
+                                        </button>
                                     </form>
-                                    <a href="#" 
-                                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                        Salir
-                                    </a>
                                 </li>
+
                             </ul>
                         </li>
 
