@@ -64,7 +64,7 @@
                                             @endif
                                         </td>
                                         <td>
-                                            @if($father->user->status == '0')
+                                            @if($father->user->status == '1')
                                                 <a href="{{ route('fathers.edit', $father->idfather) }}" class="btn btn-warning text-white" data-toggle="tooltip" title="Editar">
                                                     <i class='material-icons'>warning</i>
                                                 </a>

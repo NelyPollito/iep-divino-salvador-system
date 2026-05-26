@@ -42,10 +42,15 @@
                     <i class="material-icons">dashboard</i> Panel Control
                 </a>
             </li>
-
-            <li class="#">
-                <a href="#">
+            <li class="{{ request()->routeIs('periods.*') ? 'active' : '' }}">
+                <a href="{{ route('periods.index') }}">
                     <i class="material-icons">calendar_month</i> Periodo Escolar
+                </a>
+            </li>
+
+            <li class="{{ request()->routeIs('semesters.*') ? 'active' : '' }}">
+                <a href="{{ route('semesters.index') }}">
+                    <i class="material-icons">school</i> Semestres
                 </a>
             </li>
 
@@ -72,12 +77,33 @@
                     <i class="material-icons">face</i> Alumnos
                 </a>
             </li>
-            <li><a href="#"><i class="material-icons">school</i> Cursos</a></li>
-            <li><a href="#"><i class="material-icons">square_foot</i> Grado</a></li>
-            <li><a href="#"><i class="material-icons">history_edu</i> Subgrado</a></li>
-            <li><a href="#"><i class="material-icons">card_membership</i> Sección</a></li>
+            <li class="{{ request()->routeIs('courses.*') ? 'active' : '' }}">
+                <a href="{{ route('courses.index') }}">
+                    <i class="material-icons">school</i> Cursos
+                </a>
+            </li>
+            <li class="{{ request()->routeIs('degrees.*') ? 'active' : '' }}">
+                <a href="{{ route('degrees.index') }}">
+                    <i class="material-icons">square_foot</i> Grado
+                </a>
+            </li>
+
+            <li class="{{ request()->routeIs('subgrades.*') ? 'active' : '' }}">
+                <a href="{{ route('subgrades.index') }}">
+                    <i class="material-icons">history_edu</i> Subgrado
+                </a>
+            </li>
+            <li class="{{ request()->routeIs('sections.*') ? 'active' : '' }}">
+                <a href="{{ route('sections.index') }}">
+                    <i class="material-icons">card_membership</i> Sección
+                </a>
+            </li>
             <li><a href="#"><i class="material-icons">event_available</i> Asistencias</a></li>
-            <li><a href="#"><i class="material-icons">verified</i> Calificaciones</a></li>
+            <li class="{{ request()->routeIs('grades.*') ? 'active' : '' }}">
+                <a href="{{ route('grades.index') }}">
+                    <i class="material-icons">verified</i> Calificaciones
+                </a>
+            </li>
             <li><a href="#"><i class="material-icons">schedule</i> Horarios</a></li>
         </ul>
     </nav>
@@ -358,6 +384,171 @@
             text: 'El alumno se ha vinculado correctamente al Apoderado.',
             confirmButtonColor: '#28a745',
         })
+    </script>
+    @endif
+
+    @if(session('add_successSemes') == 'OK')
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: '¡Logrado!',
+            text: 'El semestre ha sido registrado exitosamente.',
+            confirmButtonColor: '#28a745',
+        })
+    </script>
+    @endif
+
+    @if(session('update_successSemes') == 'OK')
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: '¡Actualizado!',
+            text: 'Los datos del semestre se han actualizado correctamente.',
+            confirmButtonColor: '#28a745',
+        })
+    </script>
+    @endif
+
+    @if(session('delete_successSemes') == 'OK')
+    <script>
+        Swal.fire({
+            icon: 'warning',
+            title: '¡Desactivado!',
+            text: 'El semestre ha sido desactivado con éxito.',
+            confirmButtonColor: '#28a745',
+        })
+    </script>
+    @endif
+
+    @if(session('add_successDegre') == 'OK')
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: '¡Registrado!',
+            text: 'El grado académico se ha creado correctamente.',
+            confirmButtonColor: '#28a745',
+        })
+    </script>
+    @endif
+
+    @if(session('update_successDegre') == 'OK')
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: '¡Actualizado!',
+            text: 'Los datos del grado académico se han modificado con éxito.',
+            confirmButtonColor: '#28a745',
+        })
+    </script>
+    @endif
+
+    @if(session('delete_successDegree') == 'OK')
+    <script>
+        Swal.fire({
+            icon: 'warning',
+            title: '¡Desactivado!',
+            text: 'El grado académico ahora se encuentra en estado inactivo.',
+            confirmButtonColor: '#dc3545',
+        })
+    </script>
+    @endif
+
+    @if(session('add_successSubgrade') == 'OK')
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: '¡Registrado!',
+            text: 'El subgrado académico se ha creado correctamente.',
+            confirmButtonColor: '#28a745',
+        })
+    </script>
+    @endif
+
+    @if(session('update_successSubgrade') == 'OK')
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: '¡Actualizado!',
+            text: 'El subgrado se ha modificado correctamente.',
+            confirmButtonColor: '#28a745',
+        })
+    </script>
+    @endif
+
+    @if(session('delete_successSubgrade') == 'OK')
+    <script>
+        Swal.fire({
+            icon: 'warning',
+            title: '¡Desactivado!',
+            text: 'El subgrado académico ahora se encuentra en estado inactivo.',
+            confirmButtonColor: '#dc3545',
+        })
+    </script>
+    @endif
+
+    @if(session('add_successCourse') == 'OK')
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: '¡Curso Registrado!',
+            text: 'El curso y el docente han sido asignados correctamente.',
+            confirmButtonColor: '#28a745',
+        })
+    </script>
+    @endif
+
+    @if(session('delete_successCourse') == 'OK')
+    <script>
+        Swal.fire({
+            icon: 'warning',
+            title: '¡Desactivado!',
+            text: 'El curso ahora se encuentra en estado inactivo.',
+            confirmButtonColor: '#dc3545'
+        });
+    </script>
+    @endif
+
+    @if(session('update_successSection') == 'OK')
+    <script>
+        Swal.fire({
+            icon: 'warning',
+            title: '¡Actualizado!',
+            text: 'La sección se ha actualizado correctamente.',
+            confirmButtonColor: '#dc3545'
+        });
+    </script>
+    @endif
+
+    @if(session('delete_successSection') == 'OK')
+    <script>
+        Swal.fire({
+            icon: 'warning',
+            title: '¡Desactivado!',
+            text: 'El registro se ha desactivado correctamente.',
+            confirmButtonColor: '#dc3545'
+        });
+    </script>
+    @endif
+
+    @if(session('attendance_success') == 'OK')
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: '¡Registrado!',
+            text: 'La asistencia se registró correctamente.',
+            confirmButtonColor: '#28a745',
+        });
+    </script>
+    @endif
+
+    @if(session('attendance_error') == 'OK')
+    <script>
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Ocurrió un error al registrar la asistencia.',
+            confirmButtonColor: '#dc3545',
+        });
     </script>
     @endif
 
