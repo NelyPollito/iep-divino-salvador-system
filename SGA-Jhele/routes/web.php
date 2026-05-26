@@ -1,12 +1,20 @@
 <?php
 
+use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CourseController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DegreeController;
 use App\Http\Controllers\FatherController;
+use App\Http\Controllers\FilterController;
+use App\Http\Controllers\GradeController;
 use App\Http\Controllers\PeriodController;
+use App\Http\Controllers\SectionController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\SemesterController;
+use App\Http\Controllers\SubgradeController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -107,5 +115,134 @@ Route::get('/padres/informacion/{id}', [FatherController::class, 'show'])->name(
 
 Route::get('/padres/contrasena/{id}', [FatherController::class, 'editPassword'])->name('fathers.edit-password');
 Route::put('/padres/contrasena-actualizar/{id}', [FatherController::class, 'updatePassword'])->name('fathers.update-password');
+
+// PERIOD
+Route::get('/periodos', [PeriodController::class, 'index'])->name('periods.index');
+
+Route::get('/periodos/nuevo', [PeriodController::class, 'create'])->name('periods.create');
+Route::post('/periodos/guardar', [PeriodController::class, 'store'])->name('periods.store');
+
+Route::get('/periodos/{id}/editar', [PeriodController::class, 'edit'])->name('periods.edit');
+Route::put('/periodos/{id}/actualizar', [PeriodController::class, 'update'])->name('periods.update');
+
+
+Route::get('/periodos/{id}/eliminar', [PeriodController::class, 'showDelete'])->name('periods.showDelete');
+Route::delete('/periodos/{id}/desactivar', [PeriodController::class, 'destroy'])->name('periods.destroy');
+
+
+//SEMESTRE
+Route::get('/semestres', [SemesterController::class, 'index'])->name('semesters.index');
+
+Route::get('/semestres/nuevo', [SemesterController::class, 'create'])->name('semesters.create');
+Route::post('/semestres/guardar', [SemesterController::class, 'store'])->name('semesters.store');
+
+Route::get('/semestres/{id}/editar', [SemesterController::class, 'edit'])->name('semesters.edit');
+Route::put('/semestres/{id}/actualizar', [SemesterController::class, 'update'])->name('semesters.update');
+
+Route::get('/semestres/{id}/eliminar', [SemesterController::class, 'showDelete'])->name('semesters.showDelete');
+Route::delete('/semestres/{id}/desactivar', [SemesterController::class, 'destroy'])->name('semesters.destroy');
+
+
+//DEGREES
+Route::get('/grados', [DegreeController::class, 'index'])->name('degrees.index');
+
+Route::get('/grados/nuevo', [DegreeController::class, 'create'])->name('degrees.create');
+Route::post('/grados/guardar', [DegreeController::class, 'store'])->name('degrees.store');
+
+Route::get('/grados/{id}/editar', [DegreeController::class, 'edit'])->name('degrees.edit');
+Route::put('/grados/{id}/actualizar', [DegreeController::class, 'update'])->name('degrees.update');
+
+Route::get('/grados/{id}/eliminar', [DegreeController::class, 'showDelete'])->name('degrees.showDelete');
+Route::delete('/grados/{id}/desactivar', [DegreeController::class, 'destroy'])->name('degrees.destroy');
+
+
+//SUBGRADES
+Route::get('/subgrados', [SubgradeController::class, 'index'])->name('subgrades.index');
+
+Route::get('/subgrados/nuevo', [SubgradeController::class, 'create'])->name('subgrades.create');
+Route::post('/subgrados/guardar', [SubgradeController::class, 'store'])->name('subgrades.store');
+
+Route::get('/subgrados/{id}/editar', [SubgradeController::class, 'edit'])->name('subgrades.edit');
+Route::put('/subgrados/{id}/actualizar', [SubgradeController::class, 'update'])->name('subgrades.update');
+
+Route::get('/subgrados/{id}/eliminar', [SubgradeController::class, 'showDelete'])->name('subgrades.showDelete');
+Route::delete('/subgrados/{id}/desactivar', [SubgradeController::class, 'destroy'])->name('subgrades.destroy');
+
+
+//COURSES
+Route::get('/cursos', [CourseController::class, 'index'])->name('courses.index');
+
+Route::get('/cursos/nuevo', [CourseController::class, 'create'])->name('courses.create');
+Route::post('/cursos/guardar', [CourseController::class, 'store'])->name('courses.store');
+
+Route::get('/cursos/{id}/editar', [CourseController::class, 'edit'])->name('courses.edit');
+Route::put('/cursos/{id}/actualizar', [CourseController::class, 'update'])->name('courses.update');
+
+Route::get('/cursos/{id}/eliminar', [CourseController::class, 'showDelete'])->name('courses.showDelete');
+Route::delete('/cursos/{id}/desactivar', [CourseController::class, 'destroy'])->name('courses.destroy');
+
+Route::get('/cursos/{id}/foto', [CourseController::class, 'editPhoto'])->name('courses.editPhoto');
+Route::put('/cursos/{id}/foto-actualizar', [CourseController::class, 'updatePhoto'])->name('courses.updatePhoto');
+
+//SECTIONS
+Route::get('/secciones', [SectionController::class, 'index'])->name('sections.index');
+
+Route::get('/secciones/nuevo', [SectionController::class, 'create'])->name('sections.create');
+Route::post('/secciones/guardar', [SectionController::class, 'store'])->name('sections.store');
+
+
+Route::get('/secciones/{id}/editar', [SectionController::class, 'edit'])->name('sections.edit');
+Route::put('/secciones/{id}', [SectionController::class, 'update'])->name('sections.update');
+
+Route::get('/secciones/{id}/eliminar', [SectionController::class, 'showDelete'])->name('sections.showDelete');
+Route::delete('/secciones/{id}/desactivar', [SectionController::class, 'destroy'])->name('sections.destroy');
+
+// Ver detalles de la sección y lista de alumnos
+Route::get('/secciones/{id}/gestionar', [SectionController::class, 'manage'])->name('sections.manage');
+
+// Inscribir alumno (Enrollment)
+Route::post('/secciones/inscribir', [SectionController::class, 'enrollStudent'])->name('sections.enroll');
+
+// Retirar alumno (Eliminar enrollment)
+Route::delete('/secciones/retirar/{id}', [SectionController::class, 'unenrollStudent'])->name('sections.unenroll');
+
+
+
+
+//NOTAS / GRADES
+Route::get('/grades', [GradeController::class, 'index'])->name('grades.index');
+
+Route::get('/grades/create', [GradeController::class, 'create'])->name('grades.create');
+Route::post('/grades/store', [GradeController::class, 'store'])->name('grades.store');
+
+// AJAX para cargar tipos de evaluación
+Route::get('/get-evaluation-types', [GradeController::class, 'getEvaluationTypes'])->name('grades.getEvaluationTypes');;
+
+// Obtener datos para el modal de edición
+Route::get('/grades/get-edit-data', [GradeController::class, 'getEditData'])->name('grades.getEditData');
+// Procesar la actualización
+Route::post('/grades/update', [GradeController::class, 'update'])->name('grades.update');
+
+
+
+
+
+
+
+
+
+
+
+
+// Rutas para los selects dinámicos
+Route::get('/get-grades/{id}', [FilterController::class, 'getGrades']);
+Route::get('/get-subgrades/{id}', [FilterController::class, 'getSubgrades']);
+Route::get('/get-courses/{id}', [FilterController::class, 'getCourses']);
+//Route::get('/get-sections/{idcourse}', [FilterController::class, 'getSections']);
+
+Route::get('/get-sections/{id}', [FilterController::class, 'getSections']);
+Route::get('/get-students-section/{id}', [FilterController::class, 'getStudentsBySection']);
+
+
 
 

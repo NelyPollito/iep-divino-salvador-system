@@ -1,0 +1,150 @@
+<?php
+namespace App\Http\Controllers;
+
+use App\Models\Enrollment;
+use App\Models\Period;
+use App\Models\Section;
+use App\Models\Student;
+use Illuminate\Http\Request;
+
+class SectionController extends Controller
+{
+    public function index()
+    {
+        // Traemos las secciones con todas sus relaciones anidadas
+        $sections = Section::with([
+            'course.semester.period', 
+            'course.degree', 
+            'course.subgrade', 
+            'course.teachers'
+        ])->orderBy('idsection', 'DESC')->get();
+
+        return view('sections.index', compact('sections'));
+    }
+
+    public function create()
+    {
+        $periods = Period::where('status', 1)->get();
+        return view('sections.create', compact('periods'));
+    }
+
+    public function store(Request $request)
+    {
+        // Validamos
+        $request->validate([
+            'txtnamsecc' => 'required',
+            'txtcapc' => 'required|numeric',
+            'idcur' => 'required|array' // Array de IDs de cursos
+        ]);
+
+        // Como el formulario envía varios cursos para una misma sección, 
+        // creamos una entrada en la DB por cada curso marcado.
+        foreach ($request->idcur as $courseId) {
+            Section::create([
+                'section_name' => $request->txtnamsecc,
+                'idcourse'     => $courseId,
+                'capacity'     => $request->txtcapc,
+                'status'       => 1
+            ]);
+        }
+
+        return redirect()->route('sections.index')->with('add_successSection', 'OK');
+    }
+
+    public function edit($id)
+    {
+        // Cargamos la sección con sus relaciones para mostrar los nombres (readonly)
+        $section = Section::with(['course.semester.period', 'course.degree', 'course.subgrade'])
+                          ->findOrFail($id);
+
+        return view('sections.edit', compact('section'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'txtnamsecc' => 'required',
+            'txtcapc'    => 'required|numeric',
+            'txtstte'    => 'required'
+        ]);
+
+        $section = Section::findOrFail($id);
+        $section->update([
+            'section_name' => $request->txtnamsecc,
+            'capacity'     => $request->txtcapc,
+            'status'       => $request->txtstte
+        ]);
+
+        return redirect()->route('sections.index')->with('update_successSection', 'OK');
+    }
+
+    public function showDelete($id)
+    {
+        // Buscamos la sección con sus relaciones para mostrar información al usuario
+        $section = Section::with(['course.semester.period', 'course.degree', 'course.subgrade'])
+                        ->findOrFail($id);
+        return view('sections.delete', compact('section'));
+    }
+
+    public function destroy($id)
+    {
+        $section = Section::findOrFail($id);
+        
+        // Cambiamos el estado a 0 (Inactivo) en lugar de borrar físicamente
+        $section->status = 0;
+        $section->save();
+
+        return redirect()->route('sections.index')->with('delete_successSection', 'OK');
+    }
+
+    public function manage($id)
+    {
+        // Obtenemos la sección con toda la jerarquía de relaciones
+        $section = Section::with([
+            'course.teachers.user', 
+            'course.degree', 
+            'course.subgrade',
+            'students' // Esta relación viene del belongsToMany que definiste en el modelo
+        ])->findOrFail($id);
+
+        // Lista de alumnos disponibles para inscribir (que no estén ya en esta sección)
+        $enrolledStudentIds = $section->students->pluck('idstudent')->toArray();
+        $availableStudents = Student::whereNotIn('idstudent', $enrolledStudentIds)->get();
+
+        return view('sections.manage', compact('section', 'availableStudents'));
+    }
+
+    public function enrollStudent(Request $request)
+    {
+        $request->validate([
+            'idsection' => 'required',
+            'idstudent' => 'required'
+        ]);
+
+        // Verificar capacidad
+        $section = Section::findOrFail($request->idsection);
+        if ($section->students()->count() >= $section->capacity) {
+            return back()->with('error_capacity', 'OK');
+        }
+
+        // Crear la matrícula
+        Enrollment::create([
+            'idsection' => $request->idsection,
+            'idstudent' => $request->idstudent,
+            'enrollment_date' => now(),
+            'status' => 1
+        ]);
+
+        return back()->with('add_successEnroll', 'OK');
+    }
+
+    public function unenrollStudent($id)
+    {
+        $enrollment = Enrollment::findOrFail($id);
+        $enrollment->delete();
+
+        return back()->with('delete_successEnroll', 'OK');
+    }
+
+
+}
