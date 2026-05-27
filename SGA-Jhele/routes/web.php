@@ -224,6 +224,18 @@ Route::get('/grades/get-edit-data', [GradeController::class, 'getEditData'])->na
 Route::post('/grades/update', [GradeController::class, 'update'])->name('grades.update');
 
 
+//ASISTENCIA / ATTENDANCE
+Route::get('/attendance', [AttendanceController::class, 'index'])->name('attendance.index');
+
+Route::get('/attendance/create', [AttendanceController::class, 'create'])->name('attendance.create');
+Route::post('/attendance/store', [AttendanceController::class, 'store'])->name('attendance.store');
+
+Route::get('/attendance/get-edit-data', [AttendanceController::class, 'getEditData'])->name('attendance.getEditData');
+Route::post('/attendance/update', [AttendanceController::class, 'update'])->name('attendance.update');
+
+Route::get('/attendance/show-details', [AttendanceController::class, 'showDetails'])->name('attendance.showDetails');
+
+
 
 
 
