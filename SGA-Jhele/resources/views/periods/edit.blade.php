@@ -63,7 +63,6 @@
 
 @push('scripts')
 <script>
-    // Mantengo tu lógica de restricción de fechas si la necesitas
     let fecha = new Date().toISOString().split('T')[0];
     document.querySelector('#fechad').min = fecha;
     document.querySelector('#fechade').min = fecha;

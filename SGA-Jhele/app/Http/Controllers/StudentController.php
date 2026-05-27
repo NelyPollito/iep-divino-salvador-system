@@ -21,16 +21,13 @@ class StudentController extends Controller
         return view('students.index', compact('students'));
     }
 
-
-
-    // Mostrar formulario vinculando al iduser
     public function create($iduser)
     {
         $user = User::findOrFail($iduser);
         return view('students.complete', compact('user'));
     }
 
-    // Guardar los datos en la tabla 'students'
+
     public function store(Request $request)
     {
         $request->validate([
@@ -51,7 +48,6 @@ class StudentController extends Controller
 
     public function edit($id)
     {
-        // Buscamos el estudiante con su usuario vinculado
         $student = Student::with('user')->findOrFail($id);
         return view('students.edit', compact('student'));
     }
@@ -70,7 +66,6 @@ class StudentController extends Controller
             'status'     => 'required|in:0,1'
         ]);
 
-        // 1. Actualizar datos en la tabla 'students'
         $student->update([
             'dni'        => $request->dni,
             'full_name'  => $request->full_name,
@@ -79,7 +74,6 @@ class StudentController extends Controller
             'address'    => $request->address,
         ]);
 
-        // 2. Actualizar datos en la tabla 'users' vinculada
         $student->user->update([
             'email'  => $request->email,
             'status' => $request->status
@@ -90,7 +84,6 @@ class StudentController extends Controller
 
     public function show($id)
     {
-        // Buscamos el estudiante y cargamos su usuario para la foto, email y username
         $student = Student::with('user')->findOrFail($id);
         return view('students.info', compact('student'));
     }
@@ -105,10 +98,9 @@ class StudentController extends Controller
     {
         $student = Student::findOrFail($id);
 
-        // Desactivamos el usuario vinculado
         if ($student->user) {
             $student->user->update([
-                'status' => '0' // Cambiamos a Inactivo
+                'status' => '0' 
             ]);
         }
 
@@ -118,10 +110,8 @@ class StudentController extends Controller
 
     public function editPhoto($id)
     {
-        // Buscamos al estudiante por su ID de alumno
         $student = Student::findOrFail($id);
         
-        // Obtenemos el usuario vinculado a ese alumno
         $user = $student->user; 
 
         return view('students.photo', compact('user', 'student'));
@@ -129,7 +119,6 @@ class StudentController extends Controller
 
 public function updatePhoto(Request $request, $id)
 {
-    // El $id es idstudent, buscamos al alumno
     $student = Student::findOrFail($id);
     $user = $student->user;
 
@@ -138,7 +127,6 @@ public function updatePhoto(Request $request, $id)
     ]);
 
     if ($request->hasFile('foto')) {
-        // Borrar foto antigua si existe
         $oldPath = public_path('backend/img/subidas/' . $user->photo);
         if ($user->photo && File::exists($oldPath)) {
             File::delete($oldPath);

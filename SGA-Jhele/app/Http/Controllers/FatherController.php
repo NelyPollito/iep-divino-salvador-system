@@ -39,7 +39,6 @@ class FatherController extends Controller
 
     public function index()
     {
-        // Traemos los padres con su usuario relacionado, ordenados por ID descendente
         $fathers = Father::with('user')->orderBy('idfather', 'DESC')->get();
         return view('fathers.index', compact('fathers'));
     }
@@ -68,7 +67,6 @@ class FatherController extends Controller
             'status' => 'required'
         ]);
 
-        // 1. Actualizar tabla Fathers
         $father->update([
             'dni' => $request->dni,
             'full_name' => $request->full_name,
@@ -77,7 +75,6 @@ class FatherController extends Controller
             'address' => $request->address,
         ]);
 
-        // 2. Actualizar tabla Users (Email y Estado)
         $user->update([
             'email' => $request->email,
             'status' => $request->status
@@ -97,7 +94,6 @@ class FatherController extends Controller
     {
         $father = Father::findOrFail($id);
         
-        // Accedemos al usuario vinculado y cambiamos su estado a '0' (Inactivo)
         $father->user->update([
             'status' => '0'
         ]);
@@ -127,12 +123,10 @@ class FatherController extends Controller
                 unlink(public_path('backend/img/subidas/' . $user->photo));
             }
 
-            // Subir nueva foto
             $file = $request->file('photo');
             $filename = time() . '_' . $file->getClientOriginalName();
             $file->move(public_path('backend/img/subidas/'), $filename);
 
-            // Actualizar en la base de datos
             $user->update([
                 'photo' => $filename
             ]);
@@ -174,19 +168,17 @@ class FatherController extends Controller
         return redirect()->route('fathers.index')->with('password_success', 'OK');
     }
 
-    //Agregar Hijo
+ 
     public function showAddHijo($id)
     {
         $father = Father::findOrFail($id);
 
-        // Solo alumnos que NO son hijos todavía
         $students = Student::with('user')
             ->whereDoesntHave('fathers', function ($query) use ($id) {
                 $query->where('fathers.idfather', $id);
             })
             ->get();
 
-        // Hijos actuales
         $myChildren = $father->students()->with('user')->get();
 
         return view(
@@ -199,7 +191,6 @@ class FatherController extends Controller
     {
         $father = Father::findOrFail($request->idfather);
         
-        // attach() evita duplicados si se configura bien, o puedes usar syncWithoutDetaching
         $father->students()->syncWithoutDetaching([$request->idstudent]);
 
         return redirect()->back()->with('add_hijo_success', 'OK');

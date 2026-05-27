@@ -11,7 +11,6 @@ class GradeController extends Controller
 {
     public function index()
     {
-        // Consultamos agrupando por Sección y Curso
         $grades = DB::table('grades as g')
             ->join('courses as c', 'g.idcourse', '=', 'c.idcourse')
             ->join('subgrades as sg', 'c.idsubgrade', '=', 'sg.idsubgrade')

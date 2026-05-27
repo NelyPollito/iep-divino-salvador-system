@@ -10,7 +10,6 @@ class DegreeController extends Controller
 {
     public function index()
     {
-        // Eager loading: Traemos el semestre y el periodo asociado al semestre
         $degrees = Degree::with('semester.period')
                     ->orderBy('iddegree', 'DESC')
                     ->get();
@@ -42,10 +41,8 @@ class DegreeController extends Controller
 
     public function edit($id)
     {
-        // Buscamos el grado o lanzamos 404
         $degree = Degree::findOrFail($id);
         
-        // Obtenemos todos los semestres con sus periodos para el selector
         $semesters = Semester::with('period')->get();
         
         return view('degrees.edit', compact('degree', 'semesters'));
@@ -71,7 +68,6 @@ class DegreeController extends Controller
 
     public function showDelete($id)
     {
-        // Buscamos el grado y cargamos su relación para mostrar info en la vista
         $degree = Degree::with('semester.period')->findOrFail($id);
         return view('degrees.delete', compact('degree'));
     }
@@ -80,7 +76,6 @@ class DegreeController extends Controller
     {
         $degree = Degree::findOrFail($id);
         
-        // Desactivación lógica
         $degree->update(['status' => 0]);
 
         return redirect()->route('degrees.index')->with('delete_successDegree', 'OK');

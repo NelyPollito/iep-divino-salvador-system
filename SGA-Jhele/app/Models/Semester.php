@@ -11,8 +11,6 @@ class Semester extends Model
 
     protected $table = 'semesters';
     protected $primaryKey = 'idsemester';
-
-    // Si tu tabla no tiene columnas created_at/updated_at, desactivamos timestamps
     public $timestamps = false;
 
     protected $fillable = [
@@ -21,7 +19,6 @@ class Semester extends Model
         'status'
     ];
 
-    // Relación: Un Semestre pertenece a un Periodo
     public function period()
     {
         return $this->belongsTo(Period::class, 'idperiod', 'idperiod');

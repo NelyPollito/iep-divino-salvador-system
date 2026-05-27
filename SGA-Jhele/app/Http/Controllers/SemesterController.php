@@ -11,7 +11,6 @@ class SemesterController extends Controller
 {
     public function index()
     {
-        // Traemos los semestres con su información de periodo relacionada
         $semesters = Semester::with('period')->orderBy('idsemester', 'DESC')->get();
         
         return view('semesters.index', compact('semesters'));
@@ -19,7 +18,6 @@ class SemesterController extends Controller
 
     public function create()
     {
-        // Solo traemos los periodos activos para el formulario
         $periods = Period::where('status', 1)->get();
         return view('semesters.create', compact('periods'));
     }
@@ -42,10 +40,8 @@ class SemesterController extends Controller
 
     public function edit($id)
     {
-        // Buscamos el semestre o lanzamos error 404 si no existe
         $semester = Semester::findOrFail($id);
         
-        // Traemos todos los periodos para poder cambiarlo si es necesario
         $periods = Period::all(); 
         
         return view('semesters.edit', compact('semester', 'periods'));
@@ -71,7 +67,6 @@ class SemesterController extends Controller
 
     public function showDelete($id)
     {
-        // Buscamos el semestre para mostrar su nombre en la confirmación
         $semester = Semester::findOrFail($id);
         return view('semesters.delete', compact('semester'));
     }

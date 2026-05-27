@@ -44,10 +44,7 @@ class AttendanceController extends Controller
         return view('attendance.create', compact('periods'));
     }
 
-    /**
-     * Guardar asistencias
-     */
-    
+
     public function store(Request $request)
     {
         $request->validate([
@@ -63,7 +60,6 @@ class AttendanceController extends Controller
             $date = $request->attendance_date;
 
             foreach ($request->asistencias as $idstudent => $status) {
-                // Usamos updateOrCreate para evitar duplicados y permitir correcciones
                 Attendance::updateOrCreate(
                     [
                         'idstudent'       => $idstudent,
@@ -113,7 +109,6 @@ class AttendanceController extends Controller
 
             })
 
-            // RELACIÓN CORRECTA
             ->leftJoin('users as u', 'st.iduser', '=', 'u.iduser')
 
             ->where('e.idsection', $idsection)
@@ -130,9 +125,6 @@ class AttendanceController extends Controller
         return response()->json($students);
     }
 
-        /**
-         * Procesar la actualización masiva
-         */
         public function update(Request $request)
     {
         $request->validate([

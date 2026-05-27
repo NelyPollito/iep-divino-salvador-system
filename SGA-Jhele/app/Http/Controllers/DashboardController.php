@@ -9,13 +9,12 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        // 1. Conteos (Asegúrate de usar los nombres de tabla correctos del SQL)
         $padres = DB::table('fathers')->count();
         $docentes = DB::table('teachers')->count();
         $alumnos = DB::table('students')->count();
-        $usuarios = DB::table('users')->count(); // Cambiado de 'usuarios' a 'users'
+        $usuarios = DB::table('users')->count(); 
 
-        // 2. Alumnos Recientes (Unimos con users para obtener el email y la foto)
+
         $alumnosRecientes = DB::table('students as s')
             ->join('users as u', 's.iduser', '=', 'u.iduser')
             ->select('s.idstudent', 's.full_name', 'u.email', 'u.photo')

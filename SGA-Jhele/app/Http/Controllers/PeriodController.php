@@ -8,7 +8,6 @@ class PeriodController extends Controller
 {
     public function index()
     {
-        // Obtenemos los periodos ordenados por ID descendente
         $periods = Period::orderBy('idperiod', 'DESC')->get();
         return view('periods.index', compact('periods'));
     }
@@ -73,7 +72,6 @@ class PeriodController extends Controller
     {
         $period = Period::findOrFail($id);
         
-        // Cambiamos el estado a 0 (Inactivo/Desactivado) en lugar de borrarlo
         $period->update(['status' => 0]);
 
         return redirect()->route('periods.index')->with('delete_successPerid', 'OK');

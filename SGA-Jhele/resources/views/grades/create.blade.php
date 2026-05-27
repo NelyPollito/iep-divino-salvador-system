@@ -102,12 +102,9 @@
         $(document).ready(function() {
             const gradesModal = new bootstrap.Modal('#gradesModal');
 
-            // Cargar tipos de evaluación al inicio
             $.get('/get-evaluation-types', data => {
                 data.forEach(d => $('#tipo_evaluacion').append(`<option value="${d.idevaluation_type}">${d.evaluation_name}</option>`));
             });
-
-            // Reutilizamos tu lógica de selects encadenados...
             function resetSelects(ids) {
                 ids.forEach(id => $(id).empty().append('<option value="">Seleccione...</option>').prop('disabled', true));
             }

@@ -27,14 +27,10 @@ class User extends Authenticatable
         'login_attempts',
         'locked_until',
     ];
-
-
     protected $hidden = [
         'password',
         'remember_token',
     ];
-
-
     public function role()
     {
         return $this->belongsTo(Role::class, 'idrole', 'idrole');

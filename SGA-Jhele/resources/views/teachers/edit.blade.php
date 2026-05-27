@@ -106,8 +106,8 @@
     </div>
 </div>
 
-@push('scripts')
-    <script src="{{ asset('backend/js/letra.js') }}"></script>
+    @push('scripts')
+        <script src="{{ asset('backend/js/letra.js') }}"></script>
     @endpush
 
 </x-layouts.admin-layout>

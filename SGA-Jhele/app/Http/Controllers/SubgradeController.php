@@ -10,7 +10,6 @@ class SubgradeController extends Controller
 {
     public function index()
     {
-        // Cargamos subgrado -> grado -> semestre -> periodo
         $subgrades = Subgrade::with('degree.semester.period')
                     ->orderBy('idsubgrade', 'DESC')
                     ->get();
@@ -19,7 +18,6 @@ class SubgradeController extends Controller
     }
     public function create()
     {
-        // Cargamos los grados activos con sus periodos para el selector
         $degrees = Degree::with('semester.period')->where('status', 1)->get();
         return view('subgrades.create', compact('degrees'));
     }
@@ -41,10 +39,8 @@ class SubgradeController extends Controller
     }
     public function edit($id)
     {
-        // Buscamos el subgrado con sus relaciones
         $subgrade = Subgrade::findOrFail($id);
         
-        // Grados activos con su periodo para el selector
         $degrees = Degree::with('semester.period')->get();
         
         return view('subgrades.edit', compact('subgrade', 'degrees'));
@@ -69,7 +65,6 @@ class SubgradeController extends Controller
     }
     public function showDelete($id)
     {
-        // Buscamos el subgrado con sus relaciones para mostrar info detallada al usuario
         $subgrade = Subgrade::with('degree.semester.period')->findOrFail($id);
         return view('subgrades.delete', compact('subgrade'));
     }
@@ -78,7 +73,6 @@ class SubgradeController extends Controller
     {
         $subgrade = Subgrade::findOrFail($id);
         
-        // Desactivación lógica (status = 0)
         $subgrade->update(['status' => 0]);
 
         return redirect()->route('subgrades.index')->with('delete_successSubgrade', 'OK');

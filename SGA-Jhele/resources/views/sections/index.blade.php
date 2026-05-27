@@ -92,27 +92,24 @@
     </div>
 </div>
 
-{{-- Scripts de Datatables --}}
-{{-- Scripts de Datatables --}}
-@push('scripts')
-<script type="text/javascript">
-    $(document).ready(function() {
-    // Si ya existe una instancia, la destruimos para evitar el warning
-    if ($.fn.DataTable.isDataTable('#example')) {
-        $('#example').DataTable().destroy();
-    }
 
-    $('#example').DataTable({
-        dom: 'Bfrtip',
-        buttons: [
-            'copy', 'csv', 'excel', 'pdf', 'print'
-        ],
-        // Esto permite que si se intenta inicializar de nuevo, no explote
-        retrieve: true, 
-        paging: true
-    });
-});
-</script>
-@endpush
+    @push('scripts')
+        <script type="text/javascript">
+            $(document).ready(function() {
+            if ($.fn.DataTable.isDataTable('#example')) {
+                $('#example').DataTable().destroy();
+            }
+
+            $('#example').DataTable({
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'csv', 'excel', 'pdf', 'print'
+                ],
+                retrieve: true, 
+                paging: true
+            });
+        });
+        </script>
+    @endpush
 
 </x-layouts.admin-layout>

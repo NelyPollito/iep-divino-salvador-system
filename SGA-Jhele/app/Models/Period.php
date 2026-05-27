@@ -12,7 +12,6 @@ class Period extends Model
     protected $table = 'periods';
     protected $primaryKey = 'idperiod';
 
-    // Tu tabla usa created_at pero no tiene updated_at por defecto
     const UPDATED_AT = null;
 
     protected $fillable = [
