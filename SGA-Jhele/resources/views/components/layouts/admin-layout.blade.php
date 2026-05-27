@@ -98,7 +98,12 @@
                     <i class="material-icons">card_membership</i> Sección
                 </a>
             </li>
-            <li><a href="#"><i class="material-icons">event_available</i> Asistencias</a></li>
+            <li class="{{ request()->routeIs('attendance.*') ? 'active' : '' }}">
+                <a href="{{ route('attendance.index') }}">
+                    <i class="material-icons">event_available</i> Asistencias
+                </a>
+            </li>
+
             <li class="{{ request()->routeIs('grades.*') ? 'active' : '' }}">
                 <a href="{{ route('grades.index') }}">
                     <i class="material-icons">verified</i> Calificaciones

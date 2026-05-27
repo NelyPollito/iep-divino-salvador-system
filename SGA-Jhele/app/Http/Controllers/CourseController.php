@@ -15,8 +15,6 @@ class CourseController extends Controller
 {
     public function index()
     {
-        // Obtenemos los cursos con sus relaciones anidadas
-        // Curso -> Grado -> Semestre -> Periodo
         $courses = Course::with(['degree', 'subgrade', 'teachers', 'semester.period'])
                     ->orderBy('idcourse', 'DESC')
                     ->get();
@@ -61,7 +59,6 @@ class CourseController extends Controller
 
         $course->save();
 
-        // Guardar en la tabla intermedia course_teacher
         $course->teachers()->attach($request->idteacher);
 
         return redirect()->route('courses.index')->with('add_successCourse', 'OK');
@@ -110,8 +107,6 @@ class CourseController extends Controller
             'status'      => $request->status,
         ]);
 
-        // Actualizamos la relación con el docente en la tabla intermedia course_teacher
-        // sync() reemplaza las asociaciones anteriores por la nueva
         $course->teachers()->sync([$request->idteacher]);
 
         return redirect()->route('courses.index')->with('update_successCourse', 'OK');

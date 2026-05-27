@@ -93,7 +93,6 @@
 
     @push('scripts')
     <script>
-        // Previsualización de imagen
         function readURL(input) {
             if (input.files && input.files[0]) {
                 var reader = new FileReader();
@@ -103,7 +102,6 @@
         }
 
         $(document).ready(function() {
-            // 1. Cambio de Semestre -> Carga Grados
             $('#select-semester').on('change', function() {
                 var semesterId = $(this).val();
                 $('#select-degree').empty().append('<option value="">Cargando...</option>').prop('disabled', true);
@@ -119,7 +117,6 @@
                 }
             });
 
-            // 2. Cambio de Grado -> Carga Subgrados
             $('#select-degree').on('change', function() {
                 var degreeId = $(this).val();
                 $('#select-subgrade').empty().append('<option value="">Cargando...</option>').prop('disabled', true);

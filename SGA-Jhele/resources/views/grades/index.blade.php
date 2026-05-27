@@ -77,7 +77,6 @@
         </div>
     </div>
 
-    {{-- MODAL EDITAR CALIFICACIONES --}}
     <div class="modal fade" id="editGradeModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-scrollable">
             <div class="modal-content">
@@ -102,7 +101,6 @@
                     <input type="hidden" name="idcourse" id="edit_hidden_course">
 
                     <div class="modal-body">
-                        {{-- SELECT EVALUACIÓN --}}
                         <div class="row mb-4">
                             <div class="col-md-6">
                                 <label class="form-label fw-bold">

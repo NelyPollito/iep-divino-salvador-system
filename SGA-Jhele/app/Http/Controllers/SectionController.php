@@ -11,7 +11,6 @@ class SectionController extends Controller
 {
     public function index()
     {
-        // Traemos las secciones con todas sus relaciones anidadas
         $sections = Section::with([
             'course.semester.period', 
             'course.degree', 
@@ -34,11 +33,9 @@ class SectionController extends Controller
         $request->validate([
             'txtnamsecc' => 'required',
             'txtcapc' => 'required|numeric',
-            'idcur' => 'required|array' // Array de IDs de cursos
+            'idcur' => 'required|array' 
         ]);
 
-        // Como el formulario envía varios cursos para una misma sección, 
-        // creamos una entrada en la DB por cada curso marcado.
         foreach ($request->idcur as $courseId) {
             Section::create([
                 'section_name' => $request->txtnamsecc,
@@ -53,9 +50,8 @@ class SectionController extends Controller
 
     public function edit($id)
     {
-        // Cargamos la sección con sus relaciones para mostrar los nombres (readonly)
         $section = Section::with(['course.semester.period', 'course.degree', 'course.subgrade'])
-                          ->findOrFail($id);
+            ->findOrFail($id);
 
         return view('sections.edit', compact('section'));
     }
@@ -89,8 +85,7 @@ class SectionController extends Controller
     public function destroy($id)
     {
         $section = Section::findOrFail($id);
-        
-        // Cambiamos el estado a 0 (Inactivo) en lugar de borrar físicamente
+
         $section->status = 0;
         $section->save();
 
@@ -99,15 +94,14 @@ class SectionController extends Controller
 
     public function manage($id)
     {
-        // Obtenemos la sección con toda la jerarquía de relaciones
+
         $section = Section::with([
             'course.teachers.user', 
             'course.degree', 
             'course.subgrade',
-            'students' // Esta relación viene del belongsToMany que definiste en el modelo
+            'students' 
         ])->findOrFail($id);
 
-        // Lista de alumnos disponibles para inscribir (que no estén ya en esta sección)
         $enrolledStudentIds = $section->students->pluck('idstudent')->toArray();
         $availableStudents = Student::whereNotIn('idstudent', $enrolledStudentIds)->get();
 

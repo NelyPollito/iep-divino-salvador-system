@@ -14,8 +14,8 @@ class UserController extends Controller
     public function index()
     {
             $users = User::with(['role', 'student', 'teacher', 'father'])
-                        ->orderBy('iduser', 'DESC')
-                        ->get();
+                ->orderBy('iduser', 'DESC')
+                ->get();
 
             return view('users.index', compact('users'));
     }
@@ -23,7 +23,7 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = User::findOrFail($id);
-        $roles = Role::all(); // Para el select de roles
+        $roles = Role::all(); 
         return view('users.edit', compact('user', 'roles'));
     }
 

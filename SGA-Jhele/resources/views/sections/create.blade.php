@@ -92,70 +92,67 @@
 </div>
 
 @push('scripts')
-<script>
-$(document).ready(function() {
-    // 1. Cuando cambie el Periodo -> Cargar Grados
-    $('#prd').on('change', function() {
-        let id = $(this).val();
-        $('#grd').empty().append('<option value="">Cargando...</option>');
-        $('#sub').empty().append('<option value="">Seleccione Subgrado</option>');
-        $('#curso').empty().append('<p class="text-muted">Seleccione un subgrado para ver los cursos.</p>');
+    <script>
+    $(document).ready(function() {
+        $('#prd').on('change', function() {
+            let id = $(this).val();
+            $('#grd').empty().append('<option value="">Cargando...</option>');
+            $('#sub').empty().append('<option value="">Seleccione Subgrado</option>');
+            $('#curso').empty().append('<p class="text-muted">Seleccione un subgrado para ver los cursos.</p>');
 
-        if(id) {
-            $.get(`/get-grades/${id}`, function(data) {
-                $('#grd').empty().append('<option value="">Seleccione Grado</option>');
-                data.forEach(grado => {
-                    $('#grd').append(`<option value="${grado.iddegree}">${grado.degree_name}</option>`);
-                });
-            });
-        }
-    });
-
-    // 2. Cuando cambie el Grado -> Cargar Subgrados
-    $('#grd').on('change', function() {
-        let id = $(this).val();
-        $('#sub').empty().append('<option value="">Cargando...</option>');
-        $('#curso').empty().append('<p class="text-muted">Seleccione un subgrado para ver los cursos.</p>');
-
-        if(id) {
-            $.get(`/get-subgrades/${id}`, function(data) {
-                $('#sub').empty().append('<option value="">Seleccione Subgrado</option>');
-                data.forEach(sub => {
-                    $('#sub').append(`<option value="${sub.idsubgrade}">${sub.subgrade_name}</option>`);
-                });
-            });
-        }
-    });
-
-    // 3. Cuando cambie el Subgrado -> Cargar Cursos (Checkboxes)
-    $('#sub').on('change', function() {
-        let id = $(this).val();
-        $('#curso').empty().append('<p class="text-muted col-12">Cargando cursos...</p>');
-
-        if(id) {
-            $.get(`/get-courses/${id}`, function(data) {
-                $('#curso').empty();
-                if(data.length > 0) {
-                    data.forEach(curso => {
-                        $('#curso').append(`
-                            <div class="col-md-4 mb-2">
-                                <div class="form-check">
-                                    <input type="checkbox" name="idcur[]" value="${curso.idcourse}" class="form-check-input" id="cur_${curso.idcourse}">
-                                    <label class="form-check-label" for="cur_${curso.idcourse}">
-                                        ${curso.course_name}
-                                    </label>
-                                </div>
-                            </div>
-                        `);
+            if(id) {
+                $.get(`/get-grades/${id}`, function(data) {
+                    $('#grd').empty().append('<option value="">Seleccione Grado</option>');
+                    data.forEach(grado => {
+                        $('#grd').append(`<option value="${grado.iddegree}">${grado.degree_name}</option>`);
                     });
-                } else {
-                    $('#curso').append('<p class="text-danger col-12">No hay cursos activos para este subgrado.</p>');
-                }
-            });
-        }
+                });
+            }
+        });
+
+        $('#grd').on('change', function() {
+            let id = $(this).val();
+            $('#sub').empty().append('<option value="">Cargando...</option>');
+            $('#curso').empty().append('<p class="text-muted">Seleccione un subgrado para ver los cursos.</p>');
+
+            if(id) {
+                $.get(`/get-subgrades/${id}`, function(data) {
+                    $('#sub').empty().append('<option value="">Seleccione Subgrado</option>');
+                    data.forEach(sub => {
+                        $('#sub').append(`<option value="${sub.idsubgrade}">${sub.subgrade_name}</option>`);
+                    });
+                });
+            }
+        });
+
+        $('#sub').on('change', function() {
+            let id = $(this).val();
+            $('#curso').empty().append('<p class="text-muted col-12">Cargando cursos...</p>');
+
+            if(id) {
+                $.get(`/get-courses/${id}`, function(data) {
+                    $('#curso').empty();
+                    if(data.length > 0) {
+                        data.forEach(curso => {
+                            $('#curso').append(`
+                                <div class="col-md-4 mb-2">
+                                    <div class="form-check">
+                                        <input type="checkbox" name="idcur[]" value="${curso.idcourse}" class="form-check-input" id="cur_${curso.idcourse}">
+                                        <label class="form-check-label" for="cur_${curso.idcourse}">
+                                            ${curso.course_name}
+                                        </label>
+                                    </div>
+                                </div>
+                            `);
+                        });
+                    } else {
+                        $('#curso').append('<p class="text-danger col-12">No hay cursos activos para este subgrado.</p>');
+                    }
+                });
+            }
+        });
     });
-});
-</script>
+    </script>
 @endpush
 
 </x-layouts.admin-layout>

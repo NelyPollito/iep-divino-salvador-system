@@ -11,8 +11,6 @@ class Degree extends Model
 
     protected $table = 'degrees';
     protected $primaryKey = 'iddegree';
-
-    // Desactivamos timestamps si no los usas
     public $timestamps = false;
 
     protected $fillable = [
@@ -21,7 +19,6 @@ class Degree extends Model
         'idsemester'
     ];
 
-    // Relación: Un Grado pertenece a un Semestre
     public function semester()
     {
         return $this->belongsTo(Semester::class, 'idsemester', 'idsemester');

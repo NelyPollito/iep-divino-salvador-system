@@ -97,7 +97,7 @@
 </div>
 
 <!-- Modal Add Student -->
-<!-- Modal Add Student -->
+
 <div class="modal fade" id="addStudentModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
@@ -170,38 +170,38 @@
     </div>
 </div>
 
-@push('scripts')
-<script>
-$(document).ready(function () {
+    @push('scripts')
+        <script>
+        $(document).ready(function () {
 
-    let table = $('#studentsTable').DataTable({
-        paging: true,
-        searching: true,
-        lengthChange: true,
-        pageLength: 5,
-        responsive: true,
-        autoWidth: false,
-        language: {
-            search: "Buscar alumno:",
-            lengthMenu: "Mostrar _MENU_ alumnos",
-            info: "Mostrando _START_ a _END_ de _TOTAL_ alumnos",
-            paginate: {
-                first: "Primero",
-                last: "Último",
-                next: "Siguiente",
-                previous: "Anterior"
-            },
-            zeroRecords: "No se encontraron alumnos"
-        }
-    });
+            let table = $('#studentsTable').DataTable({
+                paging: true,
+                searching: true,
+                lengthChange: true,
+                pageLength: 5,
+                responsive: true,
+                autoWidth: false,
+                language: {
+                    search: "Buscar alumno:",
+                    lengthMenu: "Mostrar _MENU_ alumnos",
+                    info: "Mostrando _START_ a _END_ de _TOTAL_ alumnos",
+                    paginate: {
+                        first: "Primero",
+                        last: "Último",
+                        next: "Siguiente",
+                        previous: "Anterior"
+                    },
+                    zeroRecords: "No se encontraron alumnos"
+                }
+            });
 
-    $('#addStudentModal').on('shown.bs.modal', function () {
-        table.columns.adjust().draw();
-    });
+            $('#addStudentModal').on('shown.bs.modal', function () {
+                table.columns.adjust().draw();
+            });
 
-});
-</script>
-@endpush
+        });
+        </script>
+    @endpush
 
 
 </x-layouts.admin-layout>

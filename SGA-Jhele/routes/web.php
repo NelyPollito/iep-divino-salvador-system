@@ -200,10 +200,8 @@ Route::delete('/secciones/{id}/desactivar', [SectionController::class, 'destroy'
 // Ver detalles de la sección y lista de alumnos
 Route::get('/secciones/{id}/gestionar', [SectionController::class, 'manage'])->name('sections.manage');
 
-// Inscribir alumno (Enrollment)
-Route::post('/secciones/inscribir', [SectionController::class, 'enrollStudent'])->name('sections.enroll');
 
-// Retirar alumno (Eliminar enrollment)
+Route::post('/secciones/inscribir', [SectionController::class, 'enrollStudent'])->name('sections.enroll');
 Route::delete('/secciones/retirar/{id}', [SectionController::class, 'unenrollStudent'])->name('sections.unenroll');
 
 
@@ -218,9 +216,8 @@ Route::post('/grades/store', [GradeController::class, 'store'])->name('grades.st
 // AJAX para cargar tipos de evaluación
 Route::get('/get-evaluation-types', [GradeController::class, 'getEvaluationTypes'])->name('grades.getEvaluationTypes');;
 
-// Obtener datos para el modal de edición
+
 Route::get('/grades/get-edit-data', [GradeController::class, 'getEditData'])->name('grades.getEditData');
-// Procesar la actualización
 Route::post('/grades/update', [GradeController::class, 'update'])->name('grades.update');
 
 

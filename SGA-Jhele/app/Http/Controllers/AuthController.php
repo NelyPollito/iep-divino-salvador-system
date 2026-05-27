@@ -35,7 +35,6 @@ class AuthController extends Controller
 
             $request->session()->regenerate();
 
-            // ✅ Resetear intentos
             $user->login_attempts = 0;
             $user->locked_until = null;
             $user->save();
@@ -51,7 +50,6 @@ class AuthController extends Controller
             }
         }
 
-        // ❌ Si falla login
         if ($user) {
             $user->login_attempts += 1;
 
@@ -67,7 +65,6 @@ class AuthController extends Controller
         ])->withInput();
     }
 
-    // Cerrar sesión
     public function logout(Request $request) {
         Auth::logout();
         $request->session()->invalidate();

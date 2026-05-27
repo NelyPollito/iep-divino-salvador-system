@@ -71,27 +71,25 @@
     </div>
 </div>
 
-@push('scripts')
-<script type="text/javascript">
-    $(document).ready(function() {
-    // Si ya existe una instancia, la destruimos para evitar el warning
-    if ($.fn.DataTable.isDataTable('#example')) {
-        $('#example').DataTable().destroy();
-    }
+    @push('scripts')
+    <script type="text/javascript">
+        $(document).ready(function() {
+        if ($.fn.DataTable.isDataTable('#example')) {
+            $('#example').DataTable().destroy();
+        }
 
-    $('#example').DataTable({
-        dom: 'Bfrtip',
-        buttons: [
-            'copy', 'csv', 'excel', 'pdf', 'print'
-        ],
-        // Esto permite que si se intenta inicializar de nuevo, no explote
-        retrieve: true, 
-        paging: true
+        $('#example').DataTable({
+            dom: 'Bfrtip',
+            buttons: [
+                'copy', 'csv', 'excel', 'pdf', 'print'
+            ],
+            retrieve: true, 
+            paging: true
+        });
     });
-});
 
-</script>
+    </script>
 
-@endpush
+    @endpush
 
 </x-layouts.admin-layout>

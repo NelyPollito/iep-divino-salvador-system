@@ -53,6 +53,14 @@
                                                         <i class="material-icons">edit</i>
                                                 </a>
 
+                                                <a href="javascript:void(0)" 
+                                                    class="btn btn-info btn-sm btn-show-attendance" 
+                                                    data-date="{{ $row->attendance_date }}" 
+                                                    data-section="{{ $row->idsection }}"
+                                                    data-section-name="{{ $row->section_name }}">
+                                                        <i class="material-icons">visibility</i>
+                                                </a>
+
                                             </td>
                                         </tr>
                                     @endforeach
@@ -69,7 +77,6 @@
         </div>
     </div>
 
-    {{-- MODAL PARA EDITAR ASISTENCIA --}}
     <div class="modal fade" id="editAttendanceModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-scrollable">
             <div class="modal-content">
@@ -98,7 +105,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {{-- Carga via AJAX --}}
+
                                 </tbody>
                             </table>
                         </div>
@@ -113,12 +120,46 @@
         </div>
     </div>
 
+    <div class="modal fade" id="infoAttendanceModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color: #005187;">
+                    <h5 class="modal-title text-white">
+                        <i class="material-icons align-middle">info</i> 
+                        DETALLES DE ASISTENCIA: <span id="info_span_seccion" class="fw-bold"></span>
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="d-flex justify-content-between mb-3">
+                        <span><strong>Fecha:</strong> <span id="info_span_fecha"></span></span>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-sm table-hover align-middle" id="tablaInfoAlumnos">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>FOTO</th>
+                                    <th>ALUMNO</th>
+                                    <th class="text-center">ESTADO</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">CERRAR</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
     @push('scripts')
     <script type="text/javascript">
         $(document).ready(function() {
-        // Si ya existe una instancia, la destruimos para evitar el warning
         if ($.fn.DataTable.isDataTable('#example')) {
             $('#example').DataTable().destroy();
         }
@@ -128,7 +169,6 @@
             buttons: [
                 'copy', 'csv', 'excel', 'pdf', 'print'
             ],
-            // Esto permite que si se intenta inicializar de nuevo, no explote
             retrieve: true, 
             paging: true
         });
@@ -147,7 +187,7 @@
                 const date = $(this).data('date');
                 const sectionName = $(this).data('section-name');
 
-                // Configurar campos ocultos y textos
+
                 $('#edit_hidden_date').val(date);
                 $('#edit_hidden_section').val(idsection);
                 $('#edit_span_seccion').text(sectionName);
@@ -158,7 +198,6 @@
 
                 editModal.show();
 
-                // LLAMADA AJAX CORREGIDA
                 $.get("{{ route('attendance.getEditData') }}", { 
                     idsection: idsection, 
                     attendance_date: date 
@@ -197,7 +236,6 @@
                 });
             });
 
-            // PROCESAR ACTUALIZACIÓN
             $('#formEditAsistencia').on('submit', function(e) {
                 e.preventDefault();
                 const $form = $(this);

@@ -65,10 +65,8 @@
 
     </div>
 
-    <!-- SEGUNDA FILA -->
     <div class="row">
 
-        <!-- Alumnos recientes -->
         <div class="col-lg-7 col-md-12">
             <div class="card" style="min-height:485px">
                 <div class="card-header card-header-text">
@@ -109,7 +107,6 @@
             </div>
         </div>
 
-        <!-- Docentes recientes -->
         <div class="col-lg-5 col-md-12">
             <div class="card" style="min-height:485px">
                 <div class="card-header card-header-text">

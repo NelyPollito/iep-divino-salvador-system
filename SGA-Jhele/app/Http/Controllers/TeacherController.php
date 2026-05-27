@@ -27,7 +27,7 @@ class TeacherController extends Controller
             'iduser'      => 'required|exists:users,iduser',
             'dni'         => 'required|unique:teachers,dni|digits:8',
             'full_name'   => 'required|string|max:100',
-            'specialty'   => 'required|string|max:100', // Campo nuevo para docentes
+            'specialty'   => 'required|string|max:100', 
             'phone'       => 'nullable|string|max:15',
             'birth_date'  => 'required|date',
         ]);
@@ -39,7 +39,6 @@ class TeacherController extends Controller
 
     public function index()
     {
-        // Traemos todos los docentes con su información de usuario, ordenados por ID descendente
         $teachers = Teacher::with('user')->orderBy('idteacher', 'DESC')->get();
         
         return view('teachers.index', compact('teachers'));
@@ -47,7 +46,6 @@ class TeacherController extends Controller
 
     public function edit($id)
     {
-        // Buscamos al docente con su usuario
         $teacher = Teacher::with('user')->findOrFail($id);
         return view('teachers.edit', compact('teacher'));
     }
@@ -57,7 +55,6 @@ class TeacherController extends Controller
         $teacher = Teacher::findOrFail($id);
         $user = $teacher->user;
 
-        // Validación
         $request->validate([
             'dni' => 'required|numeric|digits:8',
             'full_name' => 'required|string|max:255',
@@ -67,7 +64,6 @@ class TeacherController extends Controller
             'status' => 'required'
         ]);
 
-        // 1. Actualizar Datos en la tabla Teachers
         $teacher->update([
             'dni' => $request->dni,
             'full_name' => $request->full_name,
@@ -75,7 +71,6 @@ class TeacherController extends Controller
             'phone' => $request->phone,
         ]);
 
-        // 2. Actualizar Datos en la tabla Users
         $user->update([
             'email' => $request->email,
             'status' => $request->status,
@@ -87,7 +82,6 @@ class TeacherController extends Controller
     //Delete 
     public function delete($id)
     {
-        // Buscamos el docente por su ID para mostrar la confirmación
         $teacher = Teacher::findOrFail($id);
         return view('teachers.delete', compact('teacher'));
     }
@@ -98,7 +92,6 @@ class TeacherController extends Controller
         $user = $teacher->user;
 
         if ($user) {
-            // Cambiamos el estado a 0 (Inactivo)
             $user->status = '0';
             $user->save();
         }
@@ -109,11 +102,9 @@ class TeacherController extends Controller
 
     // Photo
 
-    // ... dentro de la clase TeacherController
-
     public function editPhoto($id)
     {
-        // Buscamos al docente y cargamos su usuario para obtener la foto actual
+
         $teacher = Teacher::with('user')->findOrFail($id);
         return view('teachers.photo', compact('teacher'));
     }
@@ -128,7 +119,6 @@ class TeacherController extends Controller
         ]);
 
         if ($request->hasFile('foto')) {
-            // 1. Definir ruta y borrar foto anterior si existe
             $destinationPath = public_path('backend/img/subidas');
             $oldFilePath = $destinationPath . '/' . $user->photo;
 
@@ -136,12 +126,10 @@ class TeacherController extends Controller
                 File::delete($oldFilePath);
             }
 
-            // 2. Subir nueva foto con nombre único
             $image = $request->file('foto');
             $filename = time() . '_' . $image->getClientOriginalName();
             $image->move($destinationPath, $filename);
 
-            // 3. Actualizar el nombre en la tabla USERS
             $user->photo = $filename;
             $user->save();
         }
@@ -152,7 +140,6 @@ class TeacherController extends Controller
     // SHOW
     public function show($id)
     {
-        // Obtenemos el docente con su usuario relacionado
         $teacher = Teacher::with('user')->findOrFail($id);
         return view('teachers.info', compact('teacher'));
     }

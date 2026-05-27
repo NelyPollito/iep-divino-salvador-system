@@ -97,7 +97,6 @@
 @push('scripts')
     <script type="text/javascript">
         $(document).ready(function() {
-        // Si ya existe una instancia, la destruimos para evitar el warning
         if ($.fn.DataTable.isDataTable('#example')) {
             $('#example').DataTable().destroy();
         }
@@ -107,7 +106,6 @@
             buttons: [
                 'copy', 'csv', 'excel', 'pdf', 'print'
             ],
-            // Esto permite que si se intenta inicializar de nuevo, no explote
             retrieve: true, 
             paging: true
         });
