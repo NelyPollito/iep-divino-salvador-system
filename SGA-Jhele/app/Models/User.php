@@ -12,7 +12,6 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
-
     protected $table = 'users';
 
     protected $primaryKey = 'iduser';
@@ -27,10 +26,12 @@ class User extends Authenticatable
         'login_attempts',
         'locked_until',
     ];
+
     protected $hidden = [
         'password',
         'remember_token',
     ];
+
     public function role()
     {
         return $this->belongsTo(Role::class, 'idrole', 'idrole');
@@ -50,5 +51,14 @@ class User extends Authenticatable
     {
         return $this->hasOne(Father::class, 'iduser', 'iduser');
     }
-    
+
+    public function sentMessages()
+    {
+        return $this->hasMany(Message::class, 'sender_id', 'iduser');
+    }
+
+    public function receivedMessages()
+    {
+        return $this->hasMany(Message::class, 'receiver_id', 'iduser');
+    }
 }
