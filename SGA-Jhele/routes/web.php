@@ -59,10 +59,8 @@ Route::get('/padres/completar/{iduser}', [FatherController::class, 'create'])->n
 Route::post('/padres/guardar-perfil', [FatherController::class, 'store'])->name('fathers.store');
 
 
-
 //STUDENTS
 Route::get('/alumnos/mostrar', [StudentController::class, 'index'])->name('students.index');
-
 
 Route::get('/alumnos/editar/{id}', [StudentController::class, 'edit'])->name('students.edit');
 Route::put('/alumnos/actualizar/{id}', [StudentController::class, 'update'])->name('students.update');
@@ -72,11 +70,12 @@ Route::get('/alumnos/informacion/{id}', [StudentController::class, 'show'])->nam
 Route::get('/alumnos/{id}/constancia-estudios', [AcademicDocumentController::class, 'studyCertificate'])
     ->name('students.study-certificate');
 
+Route::get('/alumnos/{id}/constancia-notas', [AcademicDocumentController::class, 'gradeCertificate'])
+    ->name('students.grade-certificate');
 
 Route::get('/alumnos/eliminar/{id}', [StudentController::class, 'delete'])->name('students.delete');
 
 Route::delete('/alumnos/desactivar/{id}', [StudentController::class, 'destroy'])->name('students.destroy');
-
 
 Route::get('/alumnos/foto/{id}', [StudentController::class, 'editPhoto'])->name('userss.photo');
 Route::put('/alumnos/foto-actualizar/{id}', [StudentController::class, 'updatePhoto'])->name('userss.photo_update');

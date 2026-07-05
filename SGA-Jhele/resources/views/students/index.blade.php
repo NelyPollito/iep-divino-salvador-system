@@ -5,7 +5,9 @@
         <div class="col-lg-12 col-md-12">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{ route('dashboard.index') }}">Panel Control</a></li>
+                    <li class="breadcrumb-item">
+                        <a href="{{ route('dashboard.index') }}">Panel Control</a>
+                    </li>
                     <li class="breadcrumb-item active" aria-current="page">Alumnos</li>
                 </ol>
             </nav>
@@ -17,86 +19,123 @@
 
                 <div class="card-content table-responsive">
                     @if($students->count() > 0)
-                    <table class="table table-hover" id="example">
-                        <thead class="text-primary">
-                            <tr>
-                                <th>#</th>
-                                <th>Foto</th>
-                                <th>DNI</th>
-                                <th>Nombre</th>
-                                <th>Correo</th>
-                                <th>Rol</th>
-                                <th>Estado</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($students as $student)
-                            <tr>
-                                <td>{{ $student->idstudent }}</td>
-                                <td>
-                                    {{-- Traemos la foto desde el modelo User --}}
-                                    @if($student->user && $student->user->photo)
-                                        <img src="{{ asset('backend/img/subidas/' . $student->user->photo) }}" width='90'>
-                                    @else
-                                        <img src="{{ asset('backend/img/user-default.png') }}" width='90'>
-                                    @endif
-                                </td>
-                                <td>{{ $student->dni }}</td>
-                                <td>{{ $student->full_name }}</td>
-                                <td>
-                                    {{-- Accedemos al correo mediante la relación con el usuario --}}
-                                    <a href="mailto:{{ $student->user->email ?? '#' }}">
-                                        {{ $student->user->email ?? 'Sin correo' }}
-                                    </a>
-                                </td>
-                                <td>
-                                    <span class="badge" style="background:#198754; color:white;">Alumno</span>
-                                </td>
-                                <td>
-                                    @if($student->user && $student->user->status == '1')
-                                        <span class="badge badge-success">Activo</span>
-                                    @else
-                                        <span class="badge badge-danger">Inactivo</span>
-                                    @endif
-                                </td>
-                                <td>
-                                    {{-- Acciones --}}
-                                    <a href="{{ route('students.edit', $student->idstudent) }}" class="btn btn-warning text-white">
-                                        <i class='material-icons' data-toggle='tooltip' title='Editar'>warning</i>
-                                    </a>
-                                    
-                                    <a href="{{ route('students.show', $student->idstudent) }}" class="btn btn-primary text-white">
-                                        <i class='material-icons' data-toggle='tooltip' title='Información'>info</i>
-                                    </a>
+                        <table class="table table-hover" id="example">
+                            <thead class="text-primary">
+                                <tr>
+                                    <th>#</th>
+                                    <th>Foto</th>
+                                    <th>DNI</th>
+                                    <th>Nombre</th>
+                                    <th>Correo</th>
+                                    <th>Rol</th>
+                                    <th>Estado</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
 
-                                    <a href="{{ route('students.delete', $student->idstudent) }}" class="btn btn-danger text-white">
-                                        <i class='material-icons' data-toggle='tooltip' title='Desactivar'>delete_forever</i>
-                                    </a>
+                            <tbody>
+                                @foreach ($students as $student)
+                                    <tr>
+                                        <td>{{ $student->idstudent }}</td>
 
-                                    <a href="{{ route('userss.photo', $student->idstudent) }}" class="btn btn-info text-white">
-                                        <i class='material-icons' data-toggle='tooltip' title='Foto de Perfil'>image</i>
-                                    </a>
-                                    <a href="{{ route('students.study-certificate', $student->idstudent) }}" 
-                                        class="btn btn-success text-white" 
-                                        target="_blank">
-                                            <i class='material-icons' data-toggle='tooltip' title='Constancia de Estudios'>description</i>
-                                    </a>
-                                </td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                                        <td>
+                                            {{-- Traemos la foto desde el modelo User --}}
+                                            @if($student->user && $student->user->photo)
+                                                <img src="{{ asset('backend/img/subidas/' . $student->user->photo) }}" width="90">
+                                            @else
+                                                <img src="{{ asset('backend/img/user-default.png') }}" width="90">
+                                            @endif
+                                        </td>
+
+                                        <td>{{ $student->dni }}</td>
+
+                                        <td>{{ $student->full_name }}</td>
+
+                                        <td>
+                                            {{-- Accedemos al correo mediante la relación con el usuario --}}
+                                            <a href="mailto:{{ $student->user->email ?? '#' }}">
+                                                {{ $student->user->email ?? 'Sin correo' }}
+                                            </a>
+                                        </td>
+
+                                        <td>
+                                            <span class="badge" style="background:#198754; color:white;">
+                                                Alumno
+                                            </span>
+                                        </td>
+
+                                        <td>
+                                            @if($student->user && $student->user->status == '1')
+                                                <span class="badge badge-success">Activo</span>
+                                            @else
+                                                <span class="badge badge-danger">Inactivo</span>
+                                            @endif
+                                        </td>
+
+                                        <td>
+                                            {{-- Editar --}}
+                                            <a href="{{ route('students.edit', $student->idstudent) }}" 
+                                               class="btn btn-warning text-white">
+                                                <i class="material-icons" data-toggle="tooltip" title="Editar">
+                                                    warning
+                                                </i>
+                                            </a>
+                                            
+                                            {{-- Información --}}
+                                            <a href="{{ route('students.show', $student->idstudent) }}" 
+                                               class="btn btn-primary text-white">
+                                                <i class="material-icons" data-toggle="tooltip" title="Información">
+                                                    info
+                                                </i>
+                                            </a>
+
+                                            {{-- Desactivar --}}
+                                            <a href="{{ route('students.delete', $student->idstudent) }}" 
+                                               class="btn btn-danger text-white">
+                                                <i class="material-icons" data-toggle="tooltip" title="Desactivar">
+                                                    delete_forever
+                                                </i>
+                                            </a>
+
+                                            {{-- Foto de perfil --}}
+                                            <a href="{{ route('userss.photo', $student->idstudent) }}" 
+                                               class="btn btn-info text-white">
+                                                <i class="material-icons" data-toggle="tooltip" title="Foto de Perfil">
+                                                    image
+                                                </i>
+                                            </a>
+
+                                            {{-- HU-12: Constancia de Estudios --}}
+                                            <a href="{{ route('students.study-certificate', $student->idstudent) }}" 
+                                               class="btn btn-success text-white" 
+                                               target="_blank">
+                                                <i class="material-icons" data-toggle="tooltip" title="Constancia de Estudios">
+                                                    description
+                                                </i>
+                                            </a>
+
+                                            {{-- HU-13: Constancia de Notas --}}
+                                            <a href="{{ route('students.grade-certificate', $student->idstudent) }}" 
+                                               class="btn btn-secondary text-white" 
+                                               target="_blank">
+                                                <i class="material-icons" data-toggle="tooltip" title="Constancia de Notas">
+                                                    assignment
+                                                </i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
                     @else
-                    <div class="alert alert-warning">
-                        <strong>No hay datos!</strong> No se encontraron alumnos registrados con perfil completo.
-                    </div>
+                        <div class="alert alert-warning">
+                            <strong>No hay datos!</strong> No se encontraron alumnos registrados con perfil completo.
+                        </div>
                     @endif
                 </div>
             </div>
         </div>
     </div>
 </div>
-
 
 </x-layouts.admin-layout>
