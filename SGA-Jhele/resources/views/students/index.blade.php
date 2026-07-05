@@ -77,6 +77,11 @@
                                     <a href="{{ route('userss.photo', $student->idstudent) }}" class="btn btn-info text-white">
                                         <i class='material-icons' data-toggle='tooltip' title='Foto de Perfil'>image</i>
                                     </a>
+                                    <a href="{{ route('students.study-certificate', $student->idstudent) }}" 
+                                        class="btn btn-success text-white" 
+                                        target="_blank">
+                                            <i class='material-icons' data-toggle='tooltip' title='Constancia de Estudios'>description</i>
+                                    </a>
                                 </td>
                             </tr>
                             @endforeach

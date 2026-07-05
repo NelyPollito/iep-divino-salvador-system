@@ -15,6 +15,7 @@ use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\SemesterController;
 use App\Http\Controllers\SubgradeController;
+use App\Http\Controllers\AcademicDocumentController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -67,6 +68,9 @@ Route::get('/alumnos/editar/{id}', [StudentController::class, 'edit'])->name('st
 Route::put('/alumnos/actualizar/{id}', [StudentController::class, 'update'])->name('students.update');
 
 Route::get('/alumnos/informacion/{id}', [StudentController::class, 'show'])->name('students.show');
+
+Route::get('/alumnos/{id}/constancia-estudios', [AcademicDocumentController::class, 'studyCertificate'])
+    ->name('students.study-certificate');
 
 
 Route::get('/alumnos/eliminar/{id}', [StudentController::class, 'delete'])->name('students.delete');
